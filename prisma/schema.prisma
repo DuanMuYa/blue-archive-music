@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Track {
+  id          String   @id @default(cuid())
+  title       String
+  category    String   // BGM, Character Theme, Event
+  audioUrl    String
+  coverImage  String?
+  duration    Int
+  artist      String?
+  album       String?
+  releaseDate DateTime?
+  plays       Int      @default(0)
+  
+  // 元数据
+  characters  String[] // 相关角色
+  event       String?  // 相关活动
+  tags        String[]
+  
+  // 时间戳
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Playlist {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  tracks    String[] // Track IDs
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+} 
